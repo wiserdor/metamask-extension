@@ -752,15 +752,6 @@
   "revealSeedWords": {
     "message": "Otkrij početne riječi"
   },
-  "revealSeedWordsDescription": {
-    "message": "Ako ikada promijenite preglednike ili računala, trebate ovu početnu rečenicu za pristupanje svojim računima. Spremite ih negdje na sigurno i tajno mjesto."
-  },
-  "revealSeedWordsWarning": {
-    "message": "Ove se riječi mogu upotrijebiti za krađu vaših računa."
-  },
-  "revealSeedWordsWarningTitle": {
-    "message": "NE DIJELITE ovu rečenicu ni s kim!"
-  },
   "rinkeby": {
     "message": "Testna mreža Rinkeby"
   },
@@ -772,9 +763,6 @@
   },
   "save": {
     "message": "Spremi"
-  },
-  "saveAsCsvFile": {
-    "message": "Spremi kao datoteku CSV"
   },
   "scanInstructions": {
     "message": "Postavite kôd QR ispred kamere"
@@ -1082,9 +1070,6 @@
   },
   "youSign": {
     "message": "Vi potpisujete"
-  },
-  "yourPrivateSeedPhrase": {
-    "message": "Vaša privatna početna rečenica"
   },
   "zeroGasPriceOnSpeedUpError": {
     "message": "Nulta cijena goriva kod ubrzavanja"

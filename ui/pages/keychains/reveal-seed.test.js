@@ -18,7 +18,7 @@ describe('Reveal Seed Page', () => {
       },
     });
 
-    wrapper.find('form').simulate('submit');
-    expect(props.requestRevealSeedWords.calledOnce).toStrictEqual(true);
+    const txt = wrapper.find('h2').text();
+    expect(txt).toStrictEqual('secretRecoveryPhrase');
   });
 });

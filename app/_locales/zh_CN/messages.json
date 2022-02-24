@@ -2197,15 +2197,6 @@
   "revealSeedWords": {
     "message": "显示账户助记词"
   },
-  "revealSeedWordsDescription": {
-    "message": "如果您更换浏览器或计算机，则需要使用此账户助记词访问您的帐户。请将它们保存在安全秘密的地方。"
-  },
-  "revealSeedWordsWarning": {
-    "message": "该账户助记词可以用来窃取您的所有帐户"
-  },
-  "revealSeedWordsWarningTitle": {
-    "message": "不要对任何人展示此账户助记词！"
-  },
   "rinkeby": {
     "message": "Rinkeby 测试网络"
   },
@@ -2217,9 +2208,6 @@
   },
   "save": {
     "message": "保存"
-  },
-  "saveAsCsvFile": {
-    "message": "保存为 CSV 文件"
   },
   "scanInstructions": {
     "message": "将二维码放在相机前"
@@ -3327,9 +3315,6 @@
   },
   "youSign": {
     "message": "正在签名"
-  },
-  "yourPrivateSeedPhrase": {
-    "message": "您的账户助记词"
   },
   "zeroGasPriceOnSpeedUpError": {
     "message": "加速时无燃料价格"

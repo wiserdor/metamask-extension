@@ -753,15 +753,6 @@
   "revealSeedWords": {
     "message": "Pokaż słowa seed"
   },
-  "revealSeedWordsDescription": {
-    "message": "Jeśli kiedyś zmienisz przeglądarkę lub komputer, będziesz potrzebować tej frazy seed, żeby dostać się do swoich kont. Zapisz ją w bezpiecznym miejscu."
-  },
-  "revealSeedWordsWarning": {
-    "message": "Te słowa mogą być użyte żeby ukraść Twoje konta."
-  },
-  "revealSeedWordsWarningTitle": {
-    "message": "NIE pokazuj tej frazy nikomu!"
-  },
   "rinkeby": {
     "message": "Sieć testowa Rinkeby"
   },
@@ -773,9 +764,6 @@
   },
   "save": {
     "message": "Zapisz"
-  },
-  "saveAsCsvFile": {
-    "message": "Zapisz jako plik CSV"
   },
   "scanInstructions": {
     "message": "Umieść kod QR na wprost kamery"
@@ -1080,9 +1068,6 @@
   },
   "youSign": {
     "message": "Podpisujesz"
-  },
-  "yourPrivateSeedPhrase": {
-    "message": "Twoja prywatna fraza seed"
   },
   "zeroGasPriceOnSpeedUpError": {
     "message": "Przyspieszenie z zerową ceną gazu"

@@ -744,15 +744,6 @@
   "revealSeedWords": {
     "message": "የዘር ቃላትን ይግለጹ"
   },
-  "revealSeedWordsDescription": {
-    "message": "ማሰሺያዎችን ከቀየሩ ወይም ኮምፒዩተሮቸን ከአንድ ቦታ ወደ ሌላ ቦታ ካንቀሳቀሱ፣ ወደ መለያዎችዎ ለመድረስ ይህ የዘር ሐረግ ያስፈልግዎታል። ደህንነቱና ሚስጥራዊነቱ በተጠበቀ ቦታ ያስቀምጧቸው።"
-  },
-  "revealSeedWordsWarning": {
-    "message": "እነዚህ ቃላት ሁሉንም መለያዎችዎን ለመስረቅ ሊውሉ ይችላሉ።"
-  },
-  "revealSeedWordsWarningTitle": {
-    "message": "ይህን ሐረግ ለየትኛውም ሰው አያጋሩ!"
-  },
   "rinkeby": {
     "message": "Rinkeby የሙከራ አውታረ መረብ"
   },
@@ -764,9 +755,6 @@
   },
   "save": {
     "message": "አስቀምጥ"
-  },
-  "saveAsCsvFile": {
-    "message": "እንደ CSV ፋይል አስቀምጥ"
   },
   "scanInstructions": {
     "message": "የ QR ኮዱን ከካሜራዎ ፊት ለፊት ያስቀምጡ"
@@ -1077,9 +1065,6 @@
   },
   "youSign": {
     "message": "እየፈረሙ ነው"
-  },
-  "yourPrivateSeedPhrase": {
-    "message": "የግል ዘር ሐረግዎ"
   },
   "zeroGasPriceOnSpeedUpError": {
     "message": "በስፒድ አፕ ላይ ዜሮ የነዳጅ ዋጋ"

@@ -756,15 +756,6 @@
   "revealSeedWords": {
     "message": "Paljasta salaussanat"
   },
-  "revealSeedWordsDescription": {
-    "message": "Mikäli vaihdat jossakin vaiheessa selainta tai tietokonetta, tarvitset tämän salaustekstin tiliesi käyttämiseen. Tallenna se johonkin turvalliseen ja salaiseen paikkaan."
-  },
-  "revealSeedWordsWarning": {
-    "message": "Näitä sanoja voidaan käyttää kaikkien tiliesi ryöstämiseen."
-  },
-  "revealSeedWordsWarningTitle": {
-    "message": "ÄLÄ jaa tätä tekstiä kenellekään!"
-  },
   "rinkeby": {
     "message": "Rinkebyn koeverkko"
   },
@@ -776,9 +767,6 @@
   },
   "save": {
     "message": "Tallenna"
-  },
-  "saveAsCsvFile": {
-    "message": "Tallenna CSV-tiedostona"
   },
   "scanInstructions": {
     "message": "Aseta QR-koodi kamerasi eteen"
@@ -1089,9 +1077,6 @@
   },
   "youSign": {
     "message": "Olet allekirjoittamassa"
-  },
-  "yourPrivateSeedPhrase": {
-    "message": "Sinun yksityinen siemenlauseesi"
   },
   "zeroGasPriceOnSpeedUpError": {
     "message": "Polttoaine ei maksa kiihdytyksen yhteydessä"

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { exportAsFile } from '../../../helpers/utils/util';
-import Copy from '../icon/copy-icon.component';
 import { useI18nContext } from '../../../hooks/useI18nContext';
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard';
+import { clearClipboard } from '../../../helpers/utils/util';
+import Copy from '../icon/copy-icon.component';
 
 function ExportTextContainer({ text = '' }) {
   const t = useI18nContext();
@@ -19,20 +19,17 @@ function ExportTextContainer({ text = '' }) {
           className="export-text-container__button export-text-container__button--copy"
           onClick={() => {
             handleCopy(text);
+            setTimeout(async () => {
+              const clipText = await window.navigator.clipboard.readText();
+              if (text === clipText) {
+                clearClipboard();
+              }
+            }, 60000);
           }}
         >
           <Copy size={17} color="var(--color-primary-default)" />
           <div className="export-text-container__button-text">
-            {copied ? t('copiedExclamation') : t('copyToClipboard')}
-          </div>
-        </div>
-        <div
-          className="export-text-container__button"
-          onClick={() => exportAsFile('', text)}
-        >
-          <img src="images/download.svg" alt="" />
-          <div className="export-text-container__button-text">
-            {t('saveAsCsvFile')}
+            {copied ? t('copiedForMinute') : t('copyToClipboard')}
           </div>
         </div>
       </div>

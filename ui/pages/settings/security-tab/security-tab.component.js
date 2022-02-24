@@ -65,7 +65,7 @@ export default class SecurityTab extends PureComponent {
                 event.preventDefault();
                 this.context.trackEvent({
                   category: EVENT.CATEGORIES.SETTINGS,
-                  event: 'Reveal Seed Phrase',
+                  event: 'Reveal SRP Initiated',
                   properties: {
                     action: 'Reveal Seed Phrase',
                     legacy_event: true,
