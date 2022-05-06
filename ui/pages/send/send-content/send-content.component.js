@@ -10,6 +10,8 @@ import {
   INSUFFICIENT_FUNDS_FOR_GAS_ERROR_KEY,
 } from '../../../helpers/constants/error-keys';
 import { ASSET_TYPES } from '../../../../shared/constants/transaction';
+import { hexWEIToDecETH } from '../../../helpers/utils/conversions.util';
+import GasDisplay from '../gas-display/gas-display.component';
 import SendAmountRow from './send-amount-row';
 import SendHexDataRow from './send-hex-data-row';
 import SendAssetRow from './send-asset-row';
@@ -38,6 +40,16 @@ export default class SendContent extends Component {
     asset: PropTypes.object,
     to: PropTypes.string,
     assetError: PropTypes.string,
+    draftTransaction: PropTypes.object,
+    hexMaximumTransactionFee: PropTypes.string,
+    hexMinimumTransactionFee: PropTypes.string,
+    hexTransactionAmount: PropTypes.string,
+    hexTransactionTotal: PropTypes.string,
+    nativeCurrency: PropTypes.string,
+    isBuyableChain: PropTypes.bool,
+    chainId: PropTypes.string,
+    showBuyModal: PropTypes.func,
+    showAccountDetails: PropTypes.func,
   };
 
   render() {
@@ -51,6 +63,18 @@ export default class SendContent extends Component {
       getIsBalanceInsufficient,
       asset,
       assetError,
+      draftTransaction,
+      hexMaximumTransactionFee,
+      hexMinimumTransactionFee,
+      hexTransactionAmount,
+      hexTransactionTotal,
+      nativeCurrency,
+      useNonceField,
+      useNativeCurrencyAsPrimaryCurrency,
+      isBuyableChain,
+      chainId,
+      showBuyModal,
+      showAccountDetails,
     } = this.props;
 
     let gasError;
@@ -65,6 +89,11 @@ export default class SendContent extends Component {
       this.props.showHexData &&
       asset.type !== ASSET_TYPES.TOKEN &&
       asset.type !== ASSET_TYPES.COLLECTIBLE;
+
+    const title = '';
+    const ethTransactionTotalMaxAmount = Number(
+      hexWEIToDecETH(hexMaximumTransactionFee),
+    );
 
     return (
       <PageContainerContent>
@@ -81,6 +110,25 @@ export default class SendContent extends Component {
           <SendAmountRow />
           {networkOrAccountNotSupports1559 ? <SendGasRow /> : null}
           {showHexData ? <SendHexDataRow /> : null}
+          {gasError ? (
+            <GasDisplay
+              draftTransaction={draftTransaction}
+              hexMaximumTransactionFee={hexMaximumTransactionFee}
+              hexMinimumTransactionFee={hexMinimumTransactionFee}
+              hexTransactionAmount={hexTransactionAmount}
+              hexTransactionTotal={hexTransactionTotal}
+              primaryTotalTextOverrideMaxAmount={`${title} + ${ethTransactionTotalMaxAmount} ${nativeCurrency}`}
+              useNonceField={useNonceField}
+              useNativeCurrencyAsPrimaryCurrency={
+                useNativeCurrencyAsPrimaryCurrency
+              }
+              isBuyableChain={isBuyableChain}
+              nativeCurrency={nativeCurrency}
+              chainId={chainId}
+              showBuyModal={showBuyModal}
+              showAccountDetails={showAccountDetails}
+            />
+          ) : null}
         </div>
       </PageContainerContent>
     );
