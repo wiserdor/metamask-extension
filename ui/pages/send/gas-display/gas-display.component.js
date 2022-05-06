@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { PRIMARY, SECONDARY } from '../../../helpers/constants/common';
 
-import { addHexes } from '../../../helpers/utils/conversions.util';
+import {
+  addHexes,
+  hexWEIToDecGWEI,
+} from '../../../helpers/utils/conversions.util';
 import UserPreferencedCurrencyDisplay from '../../../components/app/user-preferenced-currency-display/user-preferenced-currency-display.component';
 import GasTiming from '../../../components/app/gas-timing/gas-timing.component';
 import InfoTooltip from '../../../components/ui/info-tooltip/info-tooltip';
+import LedgerInstructionField from '../../../components/app/ledger-instruction-field/ledger-instruction-field';
+import TextField from '../../../components/ui/text-field';
 import Typography from '../../../components/ui/typography/typography';
 import Button from '../../../components/ui/button';
 import { TYPOGRAPHY } from '../../../helpers/constants/design-system';
 import LoadingHeartBeat from '../../../components/ui/loading-heartbeat';
-import { hexWEIToDecGWEI } from '../../../helpers/utils/conversions.util';
+
 import TransactionDetailItem from '../../../components/app/transaction-detail-item/transaction-detail-item.component';
 import { NETWORK_TO_NAME_MAP } from '../../../../shared/constants/network';
 import TransactionDetail from '../../../components/app/transaction-detail/transaction-detail.component';
@@ -19,6 +24,32 @@ import ActionableMessage from '../../../components/ui/actionable-message/actiona
 const renderHeartBeatIfNotInTest = () =>
   process.env.IN_TEST ? null : <LoadingHeartBeat />;
 export default class GasDisplay extends Component {
+  static propTypes = {
+    primaryTotalTextOverride: PropTypes.string,
+    secondaryTotalTextOverride: PropTypes.string,
+    hexTransactionTotal: PropTypes.string,
+    useNonceField: PropTypes.bool,
+    customNonceValue: PropTypes.string,
+    updateCustomNonce: PropTypes.func,
+    nextNonce: PropTypes.number,
+    getNextNonce: PropTypes.func,
+    draftTransaction: PropTypes.object,
+    useNativeCurrencyAsPrimaryCurrency: PropTypes.bool,
+    primaryTotalTextOverrideMaxAmount: PropTypes.string,
+    maxFeePerGas: PropTypes.string,
+    maxPriorityFeePerGas: PropTypes.string,
+    isMainnet: PropTypes.bool,
+    showLedgerSteps: PropTypes.bool,
+    showBuyModal: PropTypes.func,
+    isBuyableChain: PropTypes.bool,
+    hexMinimumTransactionFee: PropTypes.string,
+    hexMaximumTransactionFee: PropTypes.string,
+    nativeCurrency: PropTypes.string,
+    chainId: PropTypes.string,
+    showAccountDetails: PropTypes.func,
+    gasError: PropTypes.string,
+  };
+
   static contextTypes = {
     t: PropTypes.func,
     trackEvent: PropTypes.func,
@@ -48,6 +79,7 @@ export default class GasDisplay extends Component {
       nativeCurrency,
       chainId,
       showAccountDetails,
+      gasError,
     } = this.props;
     const { t } = this.context;
 
@@ -138,7 +170,9 @@ export default class GasDisplay extends Component {
       ) {
         return (
           <div className="confirm-page-container-content__total-value">
-            <LoadingHeartBeat estimateUsed={this.props.txData?.userFeeLevel} />
+            <LoadingHeartBeat
+              estimateUsed={this.props.draftTransaction?.userFeeLevel}
+            />
             <UserPreferencedCurrencyDisplay
               type={SECONDARY}
               key="total-detail-text"
@@ -154,12 +188,7 @@ export default class GasDisplay extends Component {
     };
 
     const renderGasDetailsItem = () => {
-      return this.supportsEIP1559V2 ? (
-        <GasDetailsItem
-          key="gas_details"
-          userAcknowledgedGasMissing={userAcknowledgedGasMissing}
-        />
-      ) : (
+      return (
         <div className="transaction-item">
           <TransactionDetailItem
             key="gas-item"
@@ -252,13 +281,12 @@ export default class GasDisplay extends Component {
 
     return (
       <>
-        {renderGasDetailsItem}
         <div className="gas-display">
           <TransactionDetail
             userAcknowledgedGasMissing={false}
             rows={[
               renderGasDetailsItem(),
-              !this.supportsEIP1559V2 && (
+              !this.supportsEIP1559V2 && gasError && (
                 <TransactionDetailItem
                   key="total-item"
                   detailTitle={t('total')}
@@ -283,11 +311,11 @@ export default class GasDisplay extends Component {
           {nonceField}
           {showLedgerSteps ? (
             <LedgerInstructionField
-              showDataInstruction={Boolean(txData.txParams?.data)}
+              showDataInstruction={Boolean(draftTransaction.txParams?.data)}
             />
           ) : null}
         </div>
-        {!this.supportsEIP1559V2 && (
+        {!this.supportsEIP1559V2 && gasError && (
           <div className="confirm-approve-content__warning">
             <ActionableMessage
               message={
@@ -308,9 +336,9 @@ export default class GasDisplay extends Component {
                         type="inline"
                         className="gas-display__link"
                         onClick={showAccountDetails}
-                        key={'receive-button'}
+                        key="receive-button"
                       >
-                        {t('receive')}
+                        {t('deposit')}
                       </Button>,
                     ])}
                   </Typography>
@@ -323,9 +351,9 @@ export default class GasDisplay extends Component {
                         type="inline"
                         className="gas-display__link"
                         onClick={showAccountDetails}
-                        key={'receive-button'}
+                        key="receive-button"
                       >
-                        {t('receive')}
+                        {t('deposit')}
                       </Button>,
                     ])}
                   </Typography>

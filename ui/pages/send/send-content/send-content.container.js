@@ -5,6 +5,10 @@ import {
   getIsEthGasPriceFetched,
   getNoGasPriceFetched,
   checkNetworkOrAccountNotSupports1559,
+  getPreferences,
+  getIsBuyableChain,
+  transactionFeeSelector,
+  getUseNonceField,
 } from '../../../selectors';
 import {
   getIsBalanceInsufficient,
@@ -12,7 +16,7 @@ import {
   getSendAsset,
   getAssetError,
 } from '../../../ducks/send';
-import { getPreferences, getIsBuyableChain, transactionFeeSelector, getUseNonceField } from '../../../selectors';
+
 import { showModal } from '../../../store/actions';
 
 import SendContent from './send-content.component';
@@ -22,25 +26,19 @@ function mapStateToProps(state) {
   const to = getSendTo(state);
   const isBuyableChain = getIsBuyableChain(state);
 
+  const { currentCurrency, nativeCurrency, provider } = state.metamask;
+  const { draftTransaction } = state.send;
+
+  const { chainId } = provider;
+
   const {
-    currentCurrency,
-    nativeCurrency,
-    provider,
-  } = state.metamask;
-  const {
-    draftTransaction
-  } = state.send;
+    hexTransactionAmount,
+    hexMinimumTransactionFee,
+    hexMaximumTransactionFee,
+    hexTransactionTotal,
+  } = transactionFeeSelector(state, draftTransaction);
 
-  const chainId = provider.chainId;
-
-const {
-  hexTransactionAmount,
-  hexMinimumTransactionFee,
-  hexMaximumTransactionFee,
-  hexTransactionTotal,
-} = transactionFeeSelector(state, draftTransaction);
-
-const { useNativeCurrencyAsPrimaryCurrency } = getPreferences(state);
+  const { useNativeCurrencyAsPrimaryCurrency } = getPreferences(state);
 
   return {
     isOwnedAccount: Boolean(
@@ -59,11 +57,11 @@ const { useNativeCurrencyAsPrimaryCurrency } = getPreferences(state);
     asset: getSendAsset(state),
     assetError: getAssetError(state),
     useNonceField: getUseNonceField(state),
-    draftTransaction: draftTransaction,
-    hexMaximumTransactionFee: hexMaximumTransactionFee, 
-    hexMinimumTransactionFee: hexMinimumTransactionFee,
-    hexTransactionTotal: hexTransactionTotal,
-    hexTransactionAmount: hexTransactionAmount,
+    draftTransaction,
+    hexMaximumTransactionFee,
+    hexMinimumTransactionFee,
+    hexTransactionTotal,
+    hexTransactionAmount,
     currentCurrency,
     nativeCurrency,
     useNativeCurrencyAsPrimaryCurrency,

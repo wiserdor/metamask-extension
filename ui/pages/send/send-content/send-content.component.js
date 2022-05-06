@@ -50,6 +50,8 @@ export default class SendContent extends Component {
     chainId: PropTypes.string,
     showBuyModal: PropTypes.func,
     showAccountDetails: PropTypes.func,
+    useNonceField: PropTypes.bool,
+    useNativeCurrencyAsPrimaryCurrency: PropTypes.bool,
   };
 
   render() {
@@ -99,7 +101,6 @@ export default class SendContent extends Component {
       <PageContainerContent>
         <div className="send-v2__form">
           {assetError ? this.renderError(assetError) : null}
-          {gasError ? this.renderError(gasError) : null}
           {isEthGasPrice
             ? this.renderWarning(ETH_GAS_PRICE_FETCH_WARNING_KEY)
             : null}
@@ -110,25 +111,24 @@ export default class SendContent extends Component {
           <SendAmountRow />
           {networkOrAccountNotSupports1559 ? <SendGasRow /> : null}
           {showHexData ? <SendHexDataRow /> : null}
-          {gasError ? (
-            <GasDisplay
-              draftTransaction={draftTransaction}
-              hexMaximumTransactionFee={hexMaximumTransactionFee}
-              hexMinimumTransactionFee={hexMinimumTransactionFee}
-              hexTransactionAmount={hexTransactionAmount}
-              hexTransactionTotal={hexTransactionTotal}
-              primaryTotalTextOverrideMaxAmount={`${title} + ${ethTransactionTotalMaxAmount} ${nativeCurrency}`}
-              useNonceField={useNonceField}
-              useNativeCurrencyAsPrimaryCurrency={
-                useNativeCurrencyAsPrimaryCurrency
-              }
-              isBuyableChain={isBuyableChain}
-              nativeCurrency={nativeCurrency}
-              chainId={chainId}
-              showBuyModal={showBuyModal}
-              showAccountDetails={showAccountDetails}
-            />
-          ) : null}
+          <GasDisplay
+            draftTransaction={draftTransaction}
+            hexMaximumTransactionFee={hexMaximumTransactionFee}
+            hexMinimumTransactionFee={hexMinimumTransactionFee}
+            hexTransactionAmount={hexTransactionAmount}
+            hexTransactionTotal={hexTransactionTotal}
+            primaryTotalTextOverrideMaxAmount={`${title} + ${ethTransactionTotalMaxAmount} ${nativeCurrency}`}
+            useNonceField={useNonceField}
+            useNativeCurrencyAsPrimaryCurrency={
+              useNativeCurrencyAsPrimaryCurrency
+            }
+            isBuyableChain={isBuyableChain}
+            nativeCurrency={nativeCurrency}
+            chainId={chainId}
+            showBuyModal={showBuyModal}
+            showAccountDetails={showAccountDetails}
+            gasError={gasError}
+          />
         </div>
       </PageContainerContent>
     );
