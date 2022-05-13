@@ -5,7 +5,10 @@ import thunk from 'redux-thunk';
 import { useLocation } from 'react-router-dom';
 import { initialState, SEND_STAGES } from '../../ducks/send';
 import { ensInitialState } from '../../ducks/ens';
-import { renderWithProvider, setBackgroundConnection } from '../../../test/jest';
+import {
+  renderWithProvider,
+  setBackgroundConnection,
+} from '../../../test/jest';
 import { RINKEBY_CHAIN_ID } from '../../../shared/constants/network';
 import { GAS_ESTIMATE_TYPES } from '../../../shared/constants/gas';
 import Send from './send';
