@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import abi from 'human-standard-token-abi';
 import BigNumber from 'bignumber.js';
-import { addHexPrefix } from 'ethereumjs-util';
+import { addHexPrefix, isHexString } from 'ethereumjs-util';
 import { debounce } from 'lodash';
 import {
   conversionGreaterThan,
@@ -14,6 +14,7 @@ import {
   CONTRACT_ADDRESS_ERROR,
   INSUFFICIENT_FUNDS_ERROR,
   INSUFFICIENT_TOKENS_ERROR,
+  INVALID_HEX_STRING_ERROR,
   INVALID_RECIPIENT_ADDRESS_ERROR,
   INVALID_RECIPIENT_ADDRESS_NOT_ETH_NETWORK_ERROR,
   KNOWN_RECIPIENT_ADDRESS_WARNING,
@@ -481,7 +482,7 @@ export const computeEstimatedGasLimit = createAsyncThunk(
               ? send.account.balance
               : send.amount.value,
           from: send.account.address,
-          data: send.userInputHexData,
+          data: send.userInputHexData.input,
           type: '0x0',
         },
       });
@@ -499,7 +500,7 @@ export const computeEstimatedGasLimit = createAsyncThunk(
         sendToken: send.asset.details,
         to: send.recipient.address?.toLowerCase(),
         value: send.amount.value,
-        data: send.userInputHexData,
+        data: send.userInputHexData.input,
         isNonStandardEthChain,
         chainId,
         gasLimit: send.gas.gasLimit,
@@ -625,7 +626,7 @@ export const initializeSendState = createAsyncThunk(
         sendToken: asset.details,
         to: recipient.address.toLowerCase(),
         value: amount.value,
-        data: userInputHexData,
+        data: userInputHexData.input,
         isNonStandardEthChain,
         chainId,
       });
@@ -795,7 +796,10 @@ export const initialState = {
     address: null,
     balance: '0x0',
   },
-  userInputHexData: null,
+  userInputHexData: {
+    input: '',
+    error: null,
+  },
   gas: {
     isGasEstimateLoading: true,
     gasEstimatePollToken: null,
@@ -884,7 +888,7 @@ function generateTransactionParams(state) {
       // populated with the user input provided in hex field.
       txParams.to = state.recipient.address;
       txParams.value = state.amount.value;
-      txParams.data = state.userInputHexData ?? undefined;
+      txParams.data = state.userInputHexData.input ?? undefined;
   }
 
   // We need to make sure that we only include the right gas fee fields
@@ -994,7 +998,11 @@ const slice = createSlice({
      *  hex string to be set as the userInputHexData value.
      */
     updateUserInputHexData: (state, action) => {
-      state.userInputHexData = action.payload;
+      state.userInputHexData.input = action.payload;
+      // validate user input hex data
+      slice.caseReducers.validateUserInputHexData(state);
+      // validate send state
+      slice.caseReducers.validateSendState(state);
     },
     /**
      * Transaction details of a previously created transaction that the user
@@ -1040,7 +1048,7 @@ const slice = createSlice({
       state.recipient.nickname = action.payload.nickname;
       state.id = action.payload.id;
       state.account.address = action.payload.from;
-      state.userInputHexData = action.payload.data;
+      state.userInputHexData.input = action.payload.data;
     },
     /**
      * gasTotal is computed based on gasPrice and gasLimit and set in state
@@ -1403,6 +1411,16 @@ const slice = createSlice({
 
       state.gas.error = insufficientFunds ? INSUFFICIENT_FUNDS_ERROR : null;
     },
+    validateUserInputHexData: (state) => {
+      const isValidHex =
+        isHexString(state.userInputHexData.input) ||
+        !state.userInputHexData.input;
+      if (isValidHex) {
+        state.userInputHexData.error = null;
+      } else {
+        state.userInputHexData.error = INVALID_HEX_STRING_ERROR;
+      }
+    },
     validateSendState: (state) => {
       switch (true) {
         // 1 + 2. State is invalid when either gas or amount or asset fields have errors
@@ -1416,6 +1434,7 @@ const slice = createSlice({
         case Boolean(state.amount.error):
         case Boolean(state.gas.error):
         case Boolean(state.asset.error):
+        case Boolean(state.userInputHexData.error):
         case state.asset.type === ASSET_TYPES.TOKEN &&
           state.asset.details === null:
         case state.stage === SEND_STAGES.ADD_RECIPIENT:
@@ -2237,6 +2256,10 @@ export function getSendMaxModeState(state) {
 
 export function getSendHexData(state) {
   return state[name].userInputHexData;
+}
+
+export function isHexDataError(state) {
+  return Boolean(state[name].userInputHexData.error);
 }
 
 export function getDraftTransactionID(state) {
