@@ -58,7 +58,7 @@ export async function estimateGasLimitForSend({
 
   if (sendToken) {
     if (!to) {
-      // if no to address is provided, we cannot generate the token transfer
+      // If no to address is provided, we cannot generate the token transfer
       // hexData. hexData in a transaction largely dictates how much gas will
       // be consumed by a transaction. We must use our best guess, which is
       // represented in the gas shared constants.
