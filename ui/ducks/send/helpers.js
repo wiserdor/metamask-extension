@@ -140,7 +140,7 @@ export async function estimateGasLimitForSend({
   }
 
   try {
-    // call into the background process that will simulate transaction
+    // Call into the background process that will simulate transaction
     // execution on the node and return an estimate of gasLimit
     const estimatedGasLimit = await estimateGas(paramsForGasEstimate);
     const estimateWithBuffer = addGasBuffer(
