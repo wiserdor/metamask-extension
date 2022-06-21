@@ -1663,7 +1663,10 @@ export function addImportedTokens(tokensToImport) {
  * @param options.tokensToIgnore
  * @param options.dontShowLoadingIndicator
  */
-export function ignoreTokens({ tokensToIgnore, dontShowLoadingIndicator }) {
+export function ignoreTokens({
+  tokensToIgnore,
+  dontShowLoadingIndicator = false,
+}) {
   const _tokensToIgnore = Array.isArray(tokensToIgnore)
     ? tokensToIgnore
     : [tokensToIgnore];
