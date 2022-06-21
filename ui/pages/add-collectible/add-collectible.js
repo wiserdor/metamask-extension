@@ -66,7 +66,10 @@ export default function AddCollectible() {
     }
     if (contractAddressToConvertFromTokenToCollectible) {
       await dispatch(
-        ignoreTokens(contractAddressToConvertFromTokenToCollectible),
+        ignoreTokens({
+          tokensToIgnore: contractAddressToConvertFromTokenToCollectible,
+          dontShowLoadingIndicator: true,
+        }),
       );
     }
     dispatch(setNewCollectibleAddedMessage('success'));
