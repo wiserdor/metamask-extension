@@ -215,7 +215,7 @@ export function generateTransactionParams(sendState) {
       txParams.data = generateERC721TransferData({
         toAddress: draftTransaction.recipient.address,
         fromAddress:
-          draftTransaction.fromAccount.address ??
+          draftTransaction.fromAccount?.address ??
           sendState.selectedAccount.address,
         tokenId: draftTransaction.asset.details.tokenId,
       });
