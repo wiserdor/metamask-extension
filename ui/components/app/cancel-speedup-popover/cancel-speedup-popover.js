@@ -104,7 +104,8 @@ const CancelSpeedupPopover = () => {
         <Typography
           boxProps={{ alignItems: ALIGN_ITEMS.CENTER, display: DISPLAY.FLEX }}
           variant={TYPOGRAPHY.H6}
-          margin={[0, 0, 2, 0]}
+          marginTop={0}
+          marginBottom={2}
         >
           <I18nValue
             messageKey="cancelSpeedUpLabel"
