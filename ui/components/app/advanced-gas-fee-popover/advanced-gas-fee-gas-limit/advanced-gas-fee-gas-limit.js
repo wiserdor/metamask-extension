@@ -68,7 +68,7 @@ const AdvancedGasFeeGasLimit = () => {
       className="advanced-gas-fee-gas-limit"
       marginTop={4}
       marginLeft={2}
-      marginRight={4}
+      marginRight={2}
     >
       <strong>
         <I18nValue messageKey="gasLimitV2" />
