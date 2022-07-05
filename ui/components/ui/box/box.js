@@ -135,15 +135,15 @@ function isValidString(type, value) {
 }
 
 /**
- * Generate classnames
- * Generates classnames for different utility styles
- * Also accepts responsive props in the form of an array
+ * Generates classnames for different utility styles from utility props such as margin, padding, display, etc.
+ * Accepts numbers and strings for static values and arrays for responsive values.
  * Maps responsive props to mobile first breakpoints
+ * Returns an object for 'classnames' package to generate the utility classNames
  *
  * @param {string} baseClass - The root or base class name
  * @param {string} type - The style declaration type "margin", "margin-top", "padding", "display" etc
  * @param {array || number || string} value - prop value being passed in array props are responsive props
- * @param {*} validatorFn - The validation function for each type of value
+ * @param {*} validatorFn - The validation function for each value type
  * @returns
  */
 
@@ -152,16 +152,17 @@ function generateClassNames(baseClass, type, value, validatorFn) {
   if (!value) {
     return null;
   }
+  // initiate classObject to be returned to classnames package
   let classesObject = {};
-
+  // check if prop is not an array prop
   let singleDigit = Array.isArray(value) ? undefined : value;
-  // single digit exists or array has only one item
+  // check if single digit exists or if array has only one item
   if (singleDigit || value.length === 1) {
     // if it is an array with only one item assign it to singleDigit
     if (value.length === 1) {
       singleDigit = value[0];
     }
-    // add base style without any breakpoint prefixes to classObject
+    // add base style without any className breakpoint prefixes to classObject
     classesObject = {
       ...classesObject,
       [`${baseClass}--${type}-${singleDigit}`]: validatorFn
@@ -169,11 +170,11 @@ function generateClassNames(baseClass, type, value, validatorFn) {
         : true,
     };
   } else {
-    // If array with more than one item
+    // for array prop with more than one item
     for (let i = 0; i < value.length; i++) {
-      // Omit any null values to skip breakpoints
+      // omit any null values to skip breakpoints
       if (value[i] !== null) {
-        // First value is always the base value so don't apply any breakpoint prefixes
+        // first value is always the base value so don't apply any breakpoint prefixes
         if (i === 0) {
           classesObject = {
             ...classesObject,
@@ -182,7 +183,7 @@ function generateClassNames(baseClass, type, value, validatorFn) {
               : true,
           };
         } else {
-          // Apply breakpoint prefixes according to index in array [base(no prefix), sm:, md:, lg:, etc]
+          // apply breakpoint prefixes according to index in array [base(no prefix), sm:, md:, lg:]
           classesObject = {
             ...classesObject,
             [`${baseClass}--${BREAKPOINTS[i]}:${type}-${value[i]}`]: validatorFn
