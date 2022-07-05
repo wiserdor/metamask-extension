@@ -8,3 +8,16 @@ import contractMap from '@metamask/contract-metadata';
 export const LISTED_CONTRACT_ADDRESSES = Object.keys(
   contractMap,
 ).map((address) => address.toLowerCase());
+
+export const STATIC_MAINNET_TOKEN_LIST = Object.keys(contractMap).reduce(
+  (acc, base) => {
+    return {
+      ...acc,
+      [base.toLowerCase()]: {
+        ...contractMap[base],
+        address: base.toLowerCase(),
+      },
+    };
+  },
+  {},
+);
